@@ -31,7 +31,7 @@ fun main() {
 
 
     // 4. Emit some log entries
-    repeat(100){
+    repeat(10){
         logger.info(
             namespace  = Namespace.AUTH,
             message    = "User $userId logged in",

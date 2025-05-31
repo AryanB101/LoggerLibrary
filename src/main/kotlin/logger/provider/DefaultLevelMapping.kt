@@ -9,8 +9,8 @@ import logger.model.SinkType
  */
 object DefaultLevelMapping {
     val levelToSinkTypes: Map<LogLevel, List<SinkType>> = mapOf(
-        LogLevel.DEBUG to listOf(SinkType.FILE),
-        LogLevel.INFO  to listOf(SinkType.FILE),
+        LogLevel.DEBUG to listOf(SinkType.FILE, SinkType.HASHMAP),
+        LogLevel.INFO  to listOf(SinkType.FILE, SinkType.HASHMAP),
         LogLevel.WARN  to listOf(SinkType.FILE),
         LogLevel.ERROR to listOf(SinkType.FILE, SinkType.CONSOLE),
         LogLevel.FATAL to listOf(SinkType.FILE, SinkType.CONSOLE)

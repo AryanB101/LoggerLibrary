@@ -1,5 +1,6 @@
 package app.logger.provider
 
+import app.logger.factory.HashMapLoggerFactory
 import logger.core.Logger
 import logger.core.MessageDispatcher
 import logger.factory.ConsoleLoggerFactory
@@ -51,6 +52,9 @@ object LoggerProvider {
                         SinkType.FILE -> FileLoggerFactory(configMap).createLogger().dispatcher
                             .sinksByLevel.values.flatten().firstOrNull()
                             ?: throw IllegalStateException("No FileSink created")
+                        SinkType.HASHMAP -> HashMapLoggerFactory(configMap).createLogger().dispatcher
+                            .sinksByLevel.values.flatten().firstOrNull()
+                            ?: throw IllegalStateException("No HashMapSink created")
                         else -> throw IllegalArgumentException("Unsupported sink type: $sinkType")
                     }
                 } catch (e: Exception) {
@@ -58,7 +62,9 @@ object LoggerProvider {
                 }
             }
 
-            // Build sink mapping per level based on DefaultLevelMapping
+            // Mapping LogLevels to Actual Sink Instances:
+            // INFO -> [ConsoleSink]
+            // ERROR -> [ConsoleSink, FileSink]
             val sinksByLevel = defaultLevelToSinkTypes
                 .filterKeys { it.priority >= minLogLevel.priority }
                 .mapValues { (_, sinkTypes) ->
